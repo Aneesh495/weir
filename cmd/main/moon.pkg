@@ -1,0 +1,5 @@
+import {
+  "aneesh495/weir" @lib,
+}
+
+pkgtype(kind: "executable")
