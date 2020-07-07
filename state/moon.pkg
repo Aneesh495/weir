@@ -1,0 +1,3 @@
+import {
+  "aneesh495/weir/types" @types
+}
