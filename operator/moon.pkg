@@ -1,0 +1,4 @@
+import {
+  "aneesh495/weir/types" @types,
+  "aneesh495/weir/window" @window
+}
