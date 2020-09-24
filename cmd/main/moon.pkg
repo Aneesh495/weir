@@ -1,5 +1,12 @@
 import {
   "aneesh495/weir" @lib,
+  "aneesh495/weir/types" @types,
+  "aneesh495/weir/buffer" @buffer,
+  "aneesh495/weir/state" @state,
+  "aneesh495/weir/operator" @operator,
+  "aneesh495/weir/sql" @sql,
+  "aneesh495/weir/network" @network,
+  "aneesh495/weir/scenarios" @scenarios
 }
 
 pkgtype(kind: "executable")
