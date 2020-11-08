@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build, Test, and Verify
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install MoonBit Toolchain
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: Verify MoonBit Version
+        run: |
+          moon version
+
+      - name: Typecheck Project Packages
+        run: |
+          moon check
+
+      - name: Run MoonBit Unit Test Suite
+        run: |
+          moon test
+
+      - name: Execute Streaming Scenarios and Benchmarks
+        run: |
+          moon run cmd/main
+
+      - name: Run Differential Stream vs Batch Verifier
+        run: |
+          python3 tools/verifier.py --count 10000
+
+      - name: Run End-to-End Integration Test Suite
+        run: |
+          python3 tests/integration_test.py
